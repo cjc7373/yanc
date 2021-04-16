@@ -4,7 +4,18 @@
     <router-link to="/about">About</router-link>
   </div>
   <router-view/>
+  <player-bar></player-bar>
 </template>
+
+<script lang="ts">
+import PlayerBar from '@/components/PlayerBar.vue' // @ is an alias to /src
+
+export default {
+    components: {
+        PlayerBar
+    }
+}
+</script>
 
 <style lang="scss">
 #app {
