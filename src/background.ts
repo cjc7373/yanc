@@ -25,7 +25,13 @@ async function createWindow () {
             // Use pluginOptions.nodeIntegration, leave this alone
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
             nodeIntegration: (process.env
-                .ELECTRON_NODE_INTEGRATION as unknown) as boolean
+                .ELECTRON_NODE_INTEGRATION as unknown) as boolean,
+
+            // A workaround, see: https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/1285
+            contextIsolation: false,
+
+            // disable the same-origin policy for the use of netease api
+            webSecurity: false
         }
     })
 

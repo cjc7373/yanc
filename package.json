@@ -15,7 +15,7 @@
   },
   "main": "background.js",
   "dependencies": {
-    "@types/bootstrap": "^5.0.12",
+    "NeteaseCloudMusicApi": "^4.0.10",
     "bootstrap": "^5.0.0-beta3",
     "bootstrap-icons": "^1.4.1",
     "core-js": "^3.6.5",
@@ -24,7 +24,11 @@
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
+  "resolutions": {
+    "**/iconv-lite": "^0.6.2"
+  },
   "devDependencies": {
+    "@types/bootstrap": "^5.0.12",
     "@types/chai": "^4.2.11",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/mocha": "^8.0.1",
@@ -76,7 +80,10 @@
       "ecmaVersion": 2020
     },
     "rules": {
-      "indent": ["warn", 4]
+      "indent": [
+        "warn",
+        4
+      ]
     },
     "overrides": [
       {

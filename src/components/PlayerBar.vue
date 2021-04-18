@@ -17,10 +17,15 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { banner } from 'NeteaseCloudMusicApi'
 
 export default defineComponent({
     setup (props) {
         const a = ref('asdfassdf')
+
+        banner({ type: 0 }).then(res => {
+            console.log(res)
+        })
 
         return {
             a
@@ -40,10 +45,7 @@ export default defineComponent({
         height: 60px;
         text-align: start;
         background-color: white;
-
-        div {
-            display: inline;
-        }
+        display: flex;
 
         button {
             border-radius: 50%;
