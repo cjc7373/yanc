@@ -15,8 +15,8 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow () {
     // Create the browser window.
     const win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 800,
         webPreferences: {
 
             // Required for Spectron testing
@@ -28,10 +28,10 @@ async function createWindow () {
                 .ELECTRON_NODE_INTEGRATION as unknown) as boolean,
 
             // A workaround, see: https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/1285
-            contextIsolation: false,
+            contextIsolation: false
 
             // disable the same-origin policy for the use of netease api
-            webSecurity: false
+            // webSecurity: false
         }
     })
 
@@ -80,6 +80,7 @@ app.on('ready', async () => {
             console.error('Vue Devtools failed to install:', e.toString())
         }
     }
+    await import('./ipcMain')
     createWindow()
 })
 

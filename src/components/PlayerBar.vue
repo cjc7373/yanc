@@ -17,15 +17,16 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { banner } from 'NeteaseCloudMusicApi'
+import api from '@/ipcRenderer'
 
 export default defineComponent({
     setup (props) {
         const a = ref('asdfassdf')
 
-        banner({ type: 0 }).then(res => {
-            console.log(res)
-        })
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        // api.banner({ type: 0 }).then(res => {
+        // })
 
         return {
             a
