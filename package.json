@@ -25,6 +25,7 @@
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
+  "@comment resolutions": "iconv-lite is a dependency for NeteaseCloudMusicApi, and is incompatible with electron when using 0.4.x",
   "resolutions": {
     "**/iconv-lite": "^0.6.2"
   },

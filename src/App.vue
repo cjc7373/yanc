@@ -7,13 +7,29 @@
 <script lang="ts">
 import PlayerBar from '@/components/PlayerBar.vue' // @ is an alias to /src
 import NavBar from '@/components/Nav.vue'
+import api from '@/ipcRenderer'
+import { defineComponent, ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
 
-export default {
+export default defineComponent({
     components: {
         PlayerBar,
         NavBar
+    },
+    setup () {
+        const store = useStore()
+
+        onMounted(async () => {
+            const account = await api.user_account()
+            if (account.status === 200) {
+                store.commit('login') // TODO: move this to login method
+                store.commit('updateProfile', account.body.profile)
+                console.log('profile: ', account.body.profile)
+            }
+            await api.user_subcount()
+        })
     }
-}
+})
 </script>
 
 <style lang="scss">
