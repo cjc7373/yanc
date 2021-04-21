@@ -1,6 +1,6 @@
 <template>
     <div id="bar">
-        <div>TODO: Cover</div>
+        <img alt="avatar" :src="track ? track.al.picUrl : '@/assets/logo.png'" />
         <button type="button" class="btn btn-primary">
             <i class="bi bi-skip-start"></i>
         </button>
@@ -16,20 +16,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import api from '@/ipcRenderer'
+import { defineComponent, ref, computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default defineComponent({
     setup (props) {
-        const a = ref('asdfassdf')
+        const store = useStore()
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
-        // api.banner({ type: 0 }).then(res => {
-        // })
+        const track = computed(() => store.state.currentTrack)
 
         return {
-            a
+            track
         }
     }
 })
@@ -42,6 +39,7 @@ export default defineComponent({
     #bar {
         position: fixed;
         bottom: 0;
+        left: 0;
         width: 100%;
         height: 60px;
         text-align: start;

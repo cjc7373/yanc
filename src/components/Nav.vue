@@ -3,9 +3,12 @@
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link>
 
-        <ul class="list-group">
-            <li class="list-group-item" v-for="track in playlist" :key="track.id">{{ track.name }}</li>
-        </ul>
+        <div class="list-group">
+            <button class="list-group-item list-group-item-action" v-for="playlist in playlists" :key="playlist.id"
+                @click="handleRoute(playlist)">
+            {{ playlist.name }}
+            </button>
+        </div>
 
         <NavBottom></NavBottom>
     </div>
@@ -17,6 +20,7 @@ import api from '@/ipcRenderer'
 import { Modal } from 'bootstrap'
 import NavBottom from '@/components/NavBottom.vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
     components: {
@@ -24,31 +28,44 @@ export default defineComponent({
     },
     setup (props) {
         const store = useStore()
+        const router = useRouter()
 
         const profile = computed(() => store.state.profile)
 
-        const playlist = ref() // is this really reactive?
+        const playlists = ref() // is this really reactive?
 
         watch(profile, async (oldValue, newValue) => {
             if (profile.value) {
                 const res = await api.user_playlist({ uid: profile.value.userId })
-                playlist.value = res.body.playlist
+                playlists.value = res.body.playlist
             }
         })
 
+        const handleRoute = (playlist: any) => {
+            router.push({ name: 'Playlist', params: { id: playlist.id } })
+        }
+
         return {
-            playlist
+            playlists, handleRoute
         }
     }
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+$navWidth: 200px;
+
 #nav {
     display: flex;
     flex-direction: column;
 
-    width: 200px;
+    position: fixed;
+    left: 0;
+    height: 100vh;
+    margin-bottom: 60px + 50px;
+    overflow-y: scroll;
+
+    width: $navWidth;
 
     border: solid;
 

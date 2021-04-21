@@ -3,7 +3,9 @@ import { createStore } from 'vuex'
 export default createStore({
     state: {
         isLogin: false,
-        profile: null
+        profile: null,
+        currentPlaylist: null,
+        currentTrack: null
     },
     mutations: {
         login (state) {
@@ -14,6 +16,13 @@ export default createStore({
         },
         updateProfile (state, profile) {
             state.profile = profile
+        },
+        updateCurrentPlaylist (state, playlist) {
+            state.currentPlaylist = playlist
+        },
+        updateCurrentTrack (state, track) {
+            console.log('committing: ', track)
+            state.currentTrack = track
         }
     },
     actions: {
