@@ -16,10 +16,11 @@
         </button>
 
         <div id="progressBar">
-            <span id="name">{{ track.name }}</span>
+            <span id="name">{{ track.name }} - </span>
             <span id="artist">{{ artist }}</span>
-            <span id="playTime"></span>
-            <input type="range" class="form-range" id="customRange1">
+            <span id="playTime">{{ formattedTime(playControl.timeElapsed) }} / {{ formattedTime(playControl.timeTotal) }}</span>
+            <input type="range" class="form-range" id="customRange1" :value="playControl.timeElapsed / playControl.timeTotal"
+            max="1" min="0" step="0.01" @change="handleSeek">
         </div>
     </div>
 </template>
@@ -35,10 +36,9 @@ export default defineComponent({
 
         const track = computed(() => store.state.currentTrack)
         const albumPic = computed(() => track.value ? track.value.al.picUrl : '@/assets/logo.png')
-        const artist = computed(() => track.value.ar.map((item: any) => item.name).join(', '))
+        const artist = computed(() => track.value.ar.map((item: any) => item.name).join('/'))
 
-        const formattedTime = (ms: number) => {
-            const t = ms / 1000
+        const formattedTime = (t: number) => {
             const m = Math.floor(t / 60)
             const mm = m > 9 ? `${m}` : `0${m}`
             const s = Math.floor(t % 60)
@@ -51,13 +51,15 @@ export default defineComponent({
             playing: boolean;
             timeElapsed: number;
             timeTotal: number;
+            timer?: number;
         }
 
         const playControl: PlayControl = reactive({
             playing: false,
             timeElapsed: 0,
             timeTotal: 0,
-            sound: undefined
+            sound: undefined,
+            timer: undefined
         })
 
         watch(track, newTrack => {
@@ -76,17 +78,39 @@ export default defineComponent({
             })
             playControl.playing = true
             playControl.sound.play()
+
+            playControl.sound.on('load', () => {
+                playControl.timeTotal = playControl.sound.duration()
+            })
+
+            playControl.timer = setInterval(() => {
+                playControl.timeElapsed = playControl.sound.seek()
+                // console.log(playControl.sound.seek())
+            }, 1000)
         })
 
         const togglePlayPause = () => {
-            if (playControl.playing) playControl.sound.pause()
-            else playControl.sound.play()
+            if (playControl.playing) {
+                playControl.sound.pause()
+                clearInterval(playControl.timer)
+            } else {
+                playControl.sound.play()
+                playControl.timer = setInterval(() => {
+                    playControl.timeElapsed = playControl.sound.seek()
+                    // console.log(playControl.sound.seek())
+                }, 1000)
+            }
 
             playControl.playing = !playControl.playing
         }
 
+        const handleSeek = (event: any) => {
+            const percent: number = event.target.value
+            playControl.sound.seek(playControl.timeTotal * percent)
+        }
+
         return {
-            track, albumPic, artist, formattedTime, playControl, togglePlayPause
+            track, albumPic, artist, formattedTime, playControl, togglePlayPause, handleSeek
         }
     }
 })
