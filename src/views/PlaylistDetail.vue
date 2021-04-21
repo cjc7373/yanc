@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, computed } from 'vue'
+import { defineComponent, ref, watch, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import api from '@/ipcRenderer'
 import { useStore } from 'vuex'
@@ -25,15 +25,22 @@ export default defineComponent({
 
         const playlist = computed(() => store.state.currentPlaylist)
 
-        watch(() => route.params, async toParams => {
-            const id = toParams.id
+        const getPlaylist = async (id: string) => {
             const res = await api.playlist_detail({ id: id })
             store.commit('updateCurrentPlaylist', res.body.playlist)
             loading.value = false
+        }
+
+        onMounted(() => getPlaylist(route.params.id as string))
+
+        watch(() => route.params, async toParams => {
+            await getPlaylist(toParams.id as string)
         })
 
-        const changeTrack = (track: any) => {
+        const changeTrack = async (track: any) => {
+            const res = await api.song_url({ id: track.id, br: 320000 }) // FIXME: currently using fixed br to reduce bandwidth
             store.commit('updateCurrentTrack', track)
+            store.commit('updateCurrentTrackUrl', JSON.parse(new TextDecoder().decode(res.body)).data[0])
         }
 
         return {
