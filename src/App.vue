@@ -8,7 +8,7 @@
 import PlayerBar from '@/components/PlayerBar.vue' // @ is an alias to /src
 import NavBar from '@/components/Nav.vue'
 import api from '@/ipcRenderer'
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({

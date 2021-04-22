@@ -1,21 +1,22 @@
-import { createStore } from 'vuex'
+import { createStore, StoreOptions } from 'vuex'
 
-export default createStore({
+export class Track {
+    id = 0;
+    name = '';
+    albumName = '';
+    albumPicUrl = '';
+    artist: Array<any> = [];
+}
+
+const store = createStore({
     state: {
         isLogin: false,
-        profile: null,
+        profile: undefined,
         currentPlaylist: null, // now displaying playlist
-        currentTrack: {
-            name: null,
-            ar: [{
-                name: null
-            }],
-            al: {
-                picUrl: null
-            },
-            song: {}
-        },
-        trackList: null // now playing tracks
+        triggerTrack: new Track(),
+        currentTrack: new Track(),
+        trackList: Array<Track>(), // now playing tracks
+        currentTrackIndex: 0
     },
     mutations: {
         login (state) {
@@ -34,9 +35,18 @@ export default createStore({
             console.log('committing track: ', track)
             state.currentTrack = track
         },
+        updateTriggerTrack (state, track) {
+            state.triggerTrack = track
+        },
         updateCurrentTrackUrl (state, song: string) {
             console.log('committing track song: ', song)
             state.currentTrack.song = song
+        },
+        updateTrackList (state, trackList: Array<Track>) {
+            state.trackList = trackList
+        },
+        updateCurrentTrackIndex (state, index) {
+            state.currentTrackIndex = index
         }
     },
     actions: {
@@ -44,3 +54,5 @@ export default createStore({
     modules: {
     }
 })
+
+export default store

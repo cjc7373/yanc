@@ -4,10 +4,16 @@
             <span class="visually-hidden">Loading...</span>
         </div>
 
-        <div v-else class="list-group">
-            <button type="button" class="list-group-item list-group-item-action" v-for="track in playlist.tracks" :key="track.id"
-            @dblclick="changeTrack(track)">{{ track.name }}</button>
-        </div>
+        <table class="table table-striped table-hover" v-else>
+            <tbody>
+                <tr v-for="(track, index) in playlist.tracks" :key="track.id" @dblclick="changeTrack(track)">
+                    <th scope="row">{{ index }}</th>
+                    <td>{{ track.name }}</td>
+                    <td>{{ track.ar.map((item) => item.name).join('/') }}</td>
+                    <td>{{ track.al.name }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
@@ -16,6 +22,7 @@ import { defineComponent, ref, watch, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import api from '@/ipcRenderer'
 import { useStore } from 'vuex'
+import { Track } from '@/store/index'
 
 export default defineComponent({
     setup () {
@@ -37,10 +44,22 @@ export default defineComponent({
             await getPlaylist(toParams.id as string)
         })
 
-        const changeTrack = async (track: any) => {
-            const res = await api.song_url({ id: track.id, br: 320000 }) // FIXME: currently using fixed br to reduce bandwidth
-            store.commit('updateCurrentTrack', track)
-            store.commit('updateCurrentTrackUrl', JSON.parse(new TextDecoder().decode(res.body)).data[0])
+        const changeTrack = async (track: Track) => {
+            store.commit('updateTrackList', playlist.value.tracks.map((item: any) => {
+                return {
+                    name: item.name,
+                    id: item.id,
+                    albumName: item.al.name,
+                    albumPicUrl: item.al.picUrl,
+                    artist: item.ar
+                }
+            }))
+            store.commit('updateTriggerTrack', track)
+            // playlist.value.forEach((item: Track, index: number) => {
+            //     if (item.id === track.id) {
+            //         store.commit('updateCurrentTrackIndex', index)
+            //     }
+            // })
         }
 
         return {

@@ -6,7 +6,8 @@
         <div class="list-group">
             <button class="list-group-item list-group-item-action" v-for="playlist in playlists" :key="playlist.id"
                 @click="handleRoute(playlist)">
-            {{ playlist.name }}
+                <i class="bi bi-music-note-list"></i>
+                {{ playlist.name }}
             </button>
         </div>
 
