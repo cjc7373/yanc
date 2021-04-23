@@ -29,8 +29,10 @@
             <i class="bi bi-folder-plus"></i>
         </button>
 
-        <button>
-            <i class="bi bi-shuffle"></i>
+        <button @click="handleLoopModeSwitch">
+            <i class="bi bi-shuffle" v-if="currentLoopMode == 'shuffle'"></i>
+            <i class="bi bi-arrow-repeat" v-if="currentLoopMode == 'repeat'"></i>
+            <i class="bi bi-bootstrap-reboot" v-if="currentLoopMode == 'repeat-one'"></i>
             <!-- missing repeat and repeat one -->
         </button>
 
@@ -41,6 +43,13 @@
         <button>
             <i class="bi bi-list-ul"></i>
         </button>
+        <!-- <popover title="Hello Popover"
+        content="This is my content for the popover!"
+        trigger="hover">
+            <button class="btn btn-danger">
+           Hover for popover
+        </button>
+        </popover> -->
     </div>
 </template>
 
@@ -50,8 +59,13 @@ import { useStore } from 'vuex'
 import { Howl } from 'howler'
 import api from '@/ipcRenderer'
 import { Track } from '@/store/index'
+import { cycle } from '@/utils'
+import Popover from '@/components/bootstrap/Popover.vue'
 
 export default defineComponent({
+    components: {
+        Popover
+    },
     setup () {
         const store = useStore()
 
@@ -103,7 +117,10 @@ export default defineComponent({
         const trackList = computed(() => store.state.trackList)
         const reorderedTrackList: Array<Track> = reactive([])
         const currentPosition = ref(0)
-        const loopMode = ref('repeat')
+
+        type LoopMode = 'repeat' | 'repeat-one' | 'shuffle'
+        const loopModeGenerator = cycle(['repeat', 'repeat-one', 'shuffle'])
+        const currentLoopMode = ref<LoopMode>(loopModeGenerator.next().value)
 
         const track = computed(() => reorderedTrackList.length ? reorderedTrackList[currentPosition.value] : new Track())
         const albumPic = computed(() => track.value ? track.value.albumPicUrl : '@/assets/logo.png')
@@ -152,23 +169,65 @@ export default defineComponent({
             await playCurrentPosition()
         }
 
+        const reorderTrackList = (loopMode: LoopMode, currentTrack: Track) => {
+            currentTrack = Object.assign({}, currentTrack) // copy the object
+
+            const getCurrentTrackIndex = (trackList: Array<Track>) => {
+                let currentTrackIndex = 0
+                trackList.forEach((item: Track, index: number) => {
+                    if (item.id === currentTrack.id) {
+                        currentTrackIndex = index
+                    }
+                })
+                return currentTrackIndex
+            }
+
+            reorderedTrackList.splice(0, reorderedTrackList.length) // clear array
+            switch (loopMode) {
+                case 'repeat':
+                    for (const item of trackList.value) {
+                        reorderedTrackList.push(item)
+                    }
+                    currentPosition.value = getCurrentTrackIndex(trackList.value) // make sure current track is the first to play
+                    currentLoopMode.value = 'repeat'
+                    break
+                case 'repeat-one':
+                    reorderedTrackList.push(trackList.value[getCurrentTrackIndex(trackList.value)])
+                    currentPosition.value = 0
+                    currentLoopMode.value = 'repeat-one'
+                    break
+                case 'shuffle':
+                    for (const item of trackList.value) {
+                        reorderedTrackList.push(item)
+                    }
+
+                    // Fisher-Yates shuffle algorithm
+                    for (let i = reorderedTrackList.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+
+                        // swap elements array[i] and array[j]
+                        [reorderedTrackList[i], reorderedTrackList[j]] = [reorderedTrackList[j], reorderedTrackList[i]]
+                    }
+
+                    console.log(currentTrack)
+                    currentPosition.value = getCurrentTrackIndex(reorderedTrackList)
+                    currentLoopMode.value = 'shuffle'
+                    break
+            }
+        }
+
+        // FIXME: the triggerTrack won't change when the current playing track is not triggerTrack yet triggerTrack is clicked
         watch(computed(() => store.state.triggerTrack), async track => {
             console.log('the trigger track is: ', track)
 
-            let currentTrackIndex = 0
-            reorderedTrackList.splice(0, reorderedTrackList.length) // clear array
-            console.log(track)
-            trackList.value.forEach((item: Track, index: number) => {
-                reorderedTrackList.push(item)
-                if (item.id === track.id) {
-                    currentTrackIndex = index
-                }
-            })
-            reorderedTrackList.push(...reorderedTrackList.splice(0, currentTrackIndex))
-
-            currentPosition.value = -1
-            await playNext()
+            reorderTrackList(currentLoopMode.value, track)
+            await playCurrentPosition()
         })
+
+        const handleLoopModeSwitch = () => {
+            const nextLoopMode: LoopMode = loopModeGenerator.next().value
+            reorderTrackList(nextLoopMode, track.value)
+        }
 
         const togglePlayPause = () => {
             if (playControl.playing) {
@@ -201,7 +260,9 @@ export default defineComponent({
             trackList,
             reorderedTrackList,
             playNext,
-            playPrevious
+            playPrevious,
+            currentLoopMode,
+            handleLoopModeSwitch
         }
     }
 })
