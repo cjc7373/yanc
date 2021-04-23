@@ -131,6 +131,8 @@ $navWidth: 200px;
     height: $height;
     display: flex;
     flex-direction: row;
+
+    z-index: 10;
 }
 
 img {

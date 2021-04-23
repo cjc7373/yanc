@@ -22,7 +22,7 @@
             </span>
             <span id="playTime">{{ formattedTime(playControl.timeElapsed) }} / {{ formattedTime(playControl.timeTotal) }}</span>
             <input type="range" class="form-range" id="customRange1" :value="playControl.timeElapsed / playControl.timeTotal"
-            max="1" min="0" step="0.002" @change="handleSeek">
+            max="1" min="0" step="0.002" @input="handleSeekMousedown" @mouseup="handleSeekMouseup">
         </div>
 
         <button>
@@ -127,6 +127,7 @@ export default defineComponent({
             })
 
             playControl.sound.on('end', async () => {
+                // eslint-disable-next-line @typescript-eslint/no-use-before-define
                 await playNext()
             })
 
@@ -177,9 +178,14 @@ export default defineComponent({
             }
         }
 
-        const handleSeek = (event: any) => {
+        const handleSeekMousedown = (event: any) => {
+            pause()
             const percent: number = event.target.value
-            playControl.sound.seek(playControl.timeTotal * percent)
+            playControl.timeElapsed = playControl.timeTotal * percent
+            playControl.sound.seek(playControl.timeElapsed)
+        }
+
+        const handleSeekMouseup = () => {
             play()
         }
 
@@ -190,7 +196,8 @@ export default defineComponent({
             formattedTime,
             playControl,
             togglePlayPause,
-            handleSeek,
+            handleSeekMousedown,
+            handleSeekMouseup,
             trackList,
             reorderedTrackList,
             playNext,
