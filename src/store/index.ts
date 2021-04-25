@@ -1,4 +1,4 @@
-import { createStore, StoreOptions } from 'vuex'
+import { createStore } from 'vuex'
 
 export class Track {
     id = 0;
@@ -6,6 +6,7 @@ export class Track {
     albumName = '';
     albumPicUrl = '';
     artist: Array<any> = [];
+    song: any;
 }
 
 const store = createStore({
@@ -14,6 +15,7 @@ const store = createStore({
         profile: undefined,
         currentPlaylist: null, // now displaying playlist
         triggerTrack: new Track(),
+        noise: 0, // for update current track
         currentTrack: new Track(),
         trackList: Array<Track>(), // now playing tracks
         currentTrackIndex: 0
@@ -37,6 +39,7 @@ const store = createStore({
         },
         updateTriggerTrack (state, track) {
             state.triggerTrack = track
+            state.noise++
         },
         updateCurrentTrackUrl (state, song: string) {
             console.log('committing track song: ', song)

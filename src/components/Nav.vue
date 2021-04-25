@@ -16,9 +16,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed, watch, reactive } from 'vue'
+import { defineComponent, ref, computed, watch } from 'vue'
 import api from '@/ipcRenderer'
-import { Modal } from 'bootstrap'
 import NavBottom from '@/components/NavBottom.vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'

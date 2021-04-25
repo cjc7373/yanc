@@ -47,8 +47,8 @@
         content="This is my content for the popover!"
         trigger="hover">
             <button class="btn btn-danger">
-           Hover for popover
-        </button>
+                Hover for popover
+            </button>
         </popover> -->
     </div>
 </template>
@@ -108,9 +108,16 @@ export default defineComponent({
             playControl.playing = false
         }
 
+        const stop = () => {
+            playControl.sound.stop()
+            clearInterval(playControl.timer)
+            playControl.playing = false
+        }
+
         const getTrackUrl = async (id: number) => {
             const res = await api.song_url({ id: id, br: 320000 }) // FIXME: currently using fixed br to reduce bandwidth
             const song = JSON.parse(new TextDecoder().decode(res.body)).data[0]
+            console.log('the current song is ', song)
             return song.url
         }
 
@@ -129,7 +136,7 @@ export default defineComponent({
         const playCurrentPosition = async () => {
             // this object will not be garbage collected.. so we need to pause manually
             if (playControl.sound) {
-                playControl.sound.stop()
+                stop()
             }
             playControl.sound = new Howl({
                 src: [await getTrackUrl(reorderedTrackList[currentPosition.value].id)],
@@ -216,11 +223,10 @@ export default defineComponent({
             }
         }
 
-        // FIXME: the triggerTrack won't change when the current playing track is not triggerTrack yet triggerTrack is clicked
-        watch(computed(() => store.state.triggerTrack), async track => {
-            console.log('the trigger track is: ', track)
+        watch(computed(() => store.state.noise), async () => {
+            console.log('the trigger track is: ', store.state.triggerTrack)
 
-            reorderTrackList(currentLoopMode.value, track)
+            reorderTrackList(currentLoopMode.value, store.state.triggerTrack)
             await playCurrentPosition()
         })
 
