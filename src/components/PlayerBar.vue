@@ -1,6 +1,10 @@
 <template>
     <div id="bar">
-        <img alt="albumPic" :src="albumPic" />
+        <div class="cover">
+            <img alt="albumPic" :src="albumPic" />
+            <i class="bi bi-fullscreen"></i>
+        </div>
+
         <!-- FIXME: the height is 1~2 px larger than width -->
         <button type="button" class="btn btn-primary m-1" @click="playPrevious">
             <i class="bi bi-skip-start"></i>
@@ -47,7 +51,7 @@
             </a>
             </template>
             <template #body>
-                <input type="range" class="form-range" max="100" min="0" step="1" v-model="volume">
+                <input type="range" class="form-range" max="1" min="0" step="0.01" v-model="volume">
             </template>
         </MDBPopover>
 
@@ -99,6 +103,13 @@ export default defineComponent({
             timer: undefined
         })
 
+        const volumePopover = ref(false)
+        const volume = ref(1)
+
+        watch(volume, (newVolume) => {
+            playControl.sound.volume(newVolume)
+        })
+
         const play = () => {
             playControl.sound.play()
             playControl.timer = setInterval(() => {
@@ -124,6 +135,7 @@ export default defineComponent({
             const res = await api.song_url({ id: id, br: 320000 }) // FIXME: currently using fixed br to reduce bandwidth
             const song = JSON.parse(new TextDecoder().decode(res.body)).data[0]
             console.log('the current song is ', song)
+            await api.lyric({ id: id })
             return song.url
         }
 
@@ -140,7 +152,7 @@ export default defineComponent({
         const artist = computed(() => track.value.artist.map((item: any) => item.name).join('/'))
 
         const playCurrentPosition = async () => {
-            // this object will not be garbage collected.. so we need to pause manually
+            // this object will not be garbage collected.. so we need to pause manually.. FIXME: why?
             if (playControl.sound) {
                 stop()
             }
@@ -149,7 +161,8 @@ export default defineComponent({
                 // Partial stream is not possible in Web Audio API
                 // See: https://github.com/goldfire/howler.js/issues/1180
                 // and: https://github.com/VikeLabs/lecshare/issues/38
-                html5: true
+                html5: true,
+                volume: volume.value
             })
 
             playControl.sound.on('load', () => {
@@ -260,13 +273,6 @@ export default defineComponent({
             play()
         }
 
-        const volumePopover = ref(false)
-        const volume = ref(100)
-
-        watch(volume, (newVolume) => {
-            playControl.sound.volume(newVolume / 100)
-        })
-
         return {
             track,
             albumPic,
@@ -311,9 +317,31 @@ export default defineComponent({
         }
     }
 
-    img {
-        width: $barHeight;
-        height: $barHeight;
+    .cover {
+        img {
+            width: $barHeight;
+            height: $barHeight;
+        }
+        i {
+            top: 8px;
+            left: 8px;
+            opacity: 0;
+            position: absolute;
+            font-size: 2rem;
+        }
+        &:hover {
+            img {
+                opacity: 0.65;
+            }
+            i {
+                opacity: 1;
+            }
+        }
+        &:active {
+            img {
+                opacity: 0.3;
+            }
+        }
     }
 
     #progressBar {

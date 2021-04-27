@@ -55,11 +55,6 @@ export default defineComponent({
                 }
             }))
             store.commit('updateTriggerTrack', track)
-            // playlist.value.forEach((item: Track, index: number) => {
-            //     if (item.id === track.id) {
-            //         store.commit('updateCurrentTrackIndex', index)
-            //     }
-            // })
         }
 
         return {

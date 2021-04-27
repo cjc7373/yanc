@@ -18,7 +18,6 @@ const store = createStore({
         noise: 0, // for update current track
         currentTrack: new Track(),
         trackList: Array<Track>(), // now playing tracks
-        currentTrackIndex: 0
     },
     mutations: {
         login (state) {
@@ -47,9 +46,6 @@ const store = createStore({
         },
         updateTrackList (state, trackList: Array<Track>) {
             state.trackList = trackList
-        },
-        updateCurrentTrackIndex (state, index) {
-            state.currentTrackIndex = index
         }
     },
     actions: {
