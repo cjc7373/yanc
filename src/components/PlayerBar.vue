@@ -21,35 +21,40 @@
                 <span id="artist">{{ artist }}</span>
             </span>
             <span id="playTime">{{ formattedTime(playControl.timeElapsed) }} / {{ formattedTime(playControl.timeTotal) }}</span>
-            <input type="range" class="form-range" id="customRange1" :value="playControl.timeElapsed / playControl.timeTotal"
+            <input type="range" class="form-range" :value="playControl.timeElapsed / playControl.timeTotal"
             max="1" min="0" step="0.002" @input="handleSeekMousedown" @mouseup="handleSeekMouseup">
         </div>
 
-        <button>
+        <button class="btn">
             <i class="bi bi-folder-plus"></i>
         </button>
 
-        <button @click="handleLoopModeSwitch">
+        <button @click="handleLoopModeSwitch" class="btn">
             <i class="bi bi-shuffle" v-if="currentLoopMode == 'shuffle'"></i>
             <i class="bi bi-arrow-repeat" v-if="currentLoopMode == 'repeat'"></i>
             <i class="bi bi-bootstrap-reboot" v-if="currentLoopMode == 'repeat-one'"></i>
             <!-- missing repeat and repeat one -->
         </button>
 
-        <button>
-            <i class="bi bi-volume-up"></i>
-        </button>
+        <MDBPopover v-model="volumePopover" dismissible>
+            <template #reference>
+            <a
+                class="btn"
+                tabindex="0"
+                @click="volumePopover = !volumePopover"
+                >
+                <i class="bi bi-volume-up"></i>
+            </a>
+            </template>
+            <template #body>
+                <input type="range" class="form-range" max="100" min="0" step="1" v-model="volume">
+            </template>
+        </MDBPopover>
 
-        <button>
+        <button class="btn">
             <i class="bi bi-list-ul"></i>
         </button>
-        <!-- <popover title="Hello Popover"
-        content="This is my content for the popover!"
-        trigger="hover">
-            <button class="btn btn-danger">
-                Hover for popover
-            </button>
-        </popover> -->
+
     </div>
 </template>
 
@@ -60,11 +65,12 @@ import { Howl } from 'howler'
 import api from '@/ipcRenderer'
 import { Track } from '@/store/index'
 import { cycle } from '@/utils'
-import Popover from '@/components/bootstrap/Popover.vue'
+// import Popover from '@/components/bootstrap/Popover.vue'
+import { MDBPopover } from 'mdb-vue-ui-kit'
 
 export default defineComponent({
     components: {
-        Popover
+        MDBPopover
     },
     setup () {
         const store = useStore()
@@ -254,6 +260,13 @@ export default defineComponent({
             play()
         }
 
+        const volumePopover = ref(false)
+        const volume = ref(100)
+
+        watch(volume, (newVolume) => {
+            playControl.sound.volume(newVolume / 100)
+        })
+
         return {
             track,
             albumPic,
@@ -268,7 +281,9 @@ export default defineComponent({
             playNext,
             playPrevious,
             currentLoopMode,
-            handleLoopModeSwitch
+            handleLoopModeSwitch,
+            volumePopover,
+            volume
         }
     }
 })
@@ -291,7 +306,7 @@ export default defineComponent({
         display: flex;
         align-items: center;
 
-        button {
+        .btn {
             border-radius: 50%;
         }
     }

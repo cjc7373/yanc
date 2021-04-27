@@ -33,8 +33,12 @@ yarn lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
+## TODO
+- [ ] save current track and trackList when exiting
+
 ## Issues
 - [ ] vue dev tool 下载失败 据上游 [issue](https://github.com/MarshallOfSound/electron-devtools-installer/issues/77) 这应该是 electron.net 的问题
+- [ ] MediaSession API lacks the control of volume
 
 ## Special Thanks
 Special thanks to [electron-netease-cloud-music](https://github.com/Rocket1184/electron-netease-cloud-music), I've referred to this project a lot during development. 
