@@ -45,3 +45,5 @@ Special thanks to [electron-netease-cloud-music](https://github.com/Rocket1184/e
 
 ## Credits
 - [Glee](https://github.com/nondanee/Glee)
+- [YesPlayMusic](https://github.com/qier222/YesPlayMusic)
+- [vue-netease-music](https://github.com/sl1673495/vue-netease-music)

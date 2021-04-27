@@ -1,8 +1,11 @@
 <template>
+    <Player :track="track" :shown="playerShown" />
+
     <div id="bar">
-        <div class="cover">
+        <div class="cover" @click="playerShown = !playerShown">
             <img alt="albumPic" :src="albumPic" />
-            <i class="bi bi-fullscreen"></i>
+            <i class="bi bi-fullscreen-exit" v-if="playerShown"></i>
+            <i class="bi bi-fullscreen" v-else></i>
         </div>
 
         <!-- FIXME: the height is 1~2 px larger than width -->
@@ -71,10 +74,12 @@ import { Track } from '@/store/index'
 import { cycle } from '@/utils'
 // import Popover from '@/components/bootstrap/Popover.vue'
 import { MDBPopover } from 'mdb-vue-ui-kit'
+import Player from '@/components/Player.vue'
 
 export default defineComponent({
     components: {
-        MDBPopover
+        MDBPopover,
+        Player
     },
     setup () {
         const store = useStore()
@@ -135,7 +140,6 @@ export default defineComponent({
             const res = await api.song_url({ id: id, br: 320000 }) // FIXME: currently using fixed br to reduce bandwidth
             const song = JSON.parse(new TextDecoder().decode(res.body)).data[0]
             console.log('the current song is ', song)
-            await api.lyric({ id: id })
             return song.url
         }
 
@@ -273,6 +277,8 @@ export default defineComponent({
             play()
         }
 
+        const playerShown = ref(false)
+
         return {
             track,
             albumPic,
@@ -289,7 +295,8 @@ export default defineComponent({
             currentLoopMode,
             handleLoopModeSwitch,
             volumePopover,
-            volume
+            volume,
+            playerShown
         }
     }
 })

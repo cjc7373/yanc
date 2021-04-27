@@ -17,7 +17,7 @@ const store = createStore({
         triggerTrack: new Track(),
         noise: 0, // for update current track
         currentTrack: new Track(),
-        trackList: Array<Track>(), // now playing tracks
+        trackList: Array<Track>() // now playing tracks
     },
     mutations: {
         login (state) {
