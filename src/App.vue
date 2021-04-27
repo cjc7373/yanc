@@ -1,12 +1,16 @@
 <template>
-    <NavBar />
-    <router-view />
+    <Header />
+    <div id="content">
+        <NavBar />
+        <router-view />
+    </div>
     <PlayerBar />
 </template>
 
 <script lang="ts">
 import PlayerBar from '@/components/PlayerBar.vue' // @ is an alias to /src
 import NavBar from '@/components/Nav.vue'
+import Header from '@/components/Header.vue'
 import api from '@/ipcRenderer'
 import { defineComponent, onMounted } from 'vue'
 import { useStore } from 'vuex'
@@ -14,7 +18,8 @@ import { useStore } from 'vuex'
 export default defineComponent({
     components: {
         PlayerBar,
-        NavBar
+        NavBar,
+        Header
     },
     setup () {
         const store = useStore()
@@ -34,13 +39,15 @@ export default defineComponent({
 
 <style lang="scss">
 #app {
-    display: flex;
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     // text-align: center;
     color: #2c3e50;
+}
 
+#content {
+    display: flex;
     padding-left: 200px;
 }
 </style>
