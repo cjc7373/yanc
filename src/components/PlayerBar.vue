@@ -93,11 +93,11 @@ export default defineComponent({
         }
 
         interface PlayControl {
-            sound: Howl;
+            sound: any;
             playing: boolean;
             timeElapsed: number;
             timeTotal: number;
-            timer?: number;
+            timer?: any;
         }
 
         const playControl: PlayControl = reactive({

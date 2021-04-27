@@ -23,7 +23,7 @@ export default defineComponent({
         // copy from https://github.com/sl1673495/vue-netease-music/blob/master/src/utils/lrcparse.js
         const parseLyric = (lrc: string) => {
             const lyrics = lrc.split('\n')
-            const lrcObj = []
+            const lrcArray: Array<any> = []
             for (let i = 0; i < lyrics.length; i++) {
                 const lyric = decodeURIComponent(lyrics[i])
                 const timeReg = /\[\d*:\d*((\.|:)\d*)*\]/g
@@ -36,11 +36,11 @@ export default defineComponent({
                     const sec = Number(String(t.match(/:\d*/i)).slice(1))
                     const time = min * 60 + sec
                     if (content !== '') {
-                        lrcObj.push({ time: time, content })
+                        lrcArray.push({ time: time, content })
                     }
                 }
             }
-            return lrcObj
+            return lrcArray
         }
 
         const lyricParse = (lrc: any) => {
