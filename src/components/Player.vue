@@ -15,17 +15,21 @@ export default defineComponent({
     props: {
         shown: Boolean,
         track: {
-            type: Track,
+            // type: Track, // This is not related with typescript, only vue's custom validation?
             required: true
         }
     },
     setup (props) {
+        interface Lyric {
+            time: number;
+            content: string;
+        }
         // copy from https://github.com/sl1673495/vue-netease-music/blob/master/src/utils/lrcparse.js
         const parseLyric = (lrc: string) => {
             const lyrics = lrc.split('\n')
-            const lrcArray: Array<any> = []
+            const lrcArray: Array<Lyric> = []
             for (let i = 0; i < lyrics.length; i++) {
-                const lyric = decodeURIComponent(lyrics[i])
+                const lyric = lyrics[i]
                 const timeReg = /\[\d*:\d*((\.|:)\d*)*\]/g
                 const timeRegExpArr = lyric.match(timeReg)
                 if (!timeRegExpArr) continue
@@ -55,11 +59,10 @@ export default defineComponent({
         const parsedLrc = ref()
         const loading = ref(true)
 
-        watch(() => props.track, async (track) => {
+        watch(() => props.track, async (track: any) => {
             const lrc = await api.lyric({ id: track.id })
             parsedLrc.value = lyricParse(lrc.body)
             loading.value = false
-            console.log(parseLyric)
         })
 
         return { parsedLrc, loading }
@@ -74,9 +77,9 @@ $barHeight: 60px;
     position: fixed;
     bottom: $barHeight;
     left: 0;
-    z-index: 100;
     width: 100%;
+    height: 90%;
     background-color: white;
-    overflow-x: scroll;
+    overflow-y: scroll;
 }
 </style>

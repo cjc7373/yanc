@@ -1,12 +1,17 @@
 import { createStore } from 'vuex'
 
+export class Artist {
+    id = 0;
+    name = '';
+}
+
 export class Track {
     id = 0;
     name = '';
     albumName = '';
     albumPicUrl = '';
-    artist: Array<any> = [];
-    song: any;
+    artist: Artist[] = [];
+    song?: any;
 }
 
 const store = createStore({

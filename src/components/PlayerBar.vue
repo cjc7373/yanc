@@ -143,8 +143,8 @@ export default defineComponent({
             return song.url
         }
 
-        const trackList = computed(() => store.state.trackList)
-        const reorderedTrackList: Array<Track> = reactive([])
+        const trackList = computed<Track[]>(() => store.state.trackList)
+        const reorderedTrackList: Track[] = reactive([])
         const currentPosition = ref(0)
 
         type LoopMode = 'repeat' | 'repeat-one' | 'shuffle'
@@ -239,7 +239,7 @@ export default defineComponent({
                         [reorderedTrackList[i], reorderedTrackList[j]] = [reorderedTrackList[j], reorderedTrackList[i]]
                     }
 
-                    console.log(currentTrack)
+                    // console.log(currentTrack)
                     currentPosition.value = getCurrentTrackIndex(reorderedTrackList)
                     currentLoopMode.value = 'shuffle'
                     break
