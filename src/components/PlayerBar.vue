@@ -132,6 +132,7 @@ export default defineComponent({
 
         const stop = () => {
             playControl.sound.stop()
+            playControl.timeElapsed = 0
             clearInterval(playControl.timer)
             playControl.playing = false
         }
@@ -181,6 +182,7 @@ export default defineComponent({
             play()
         }
 
+        // FIXME: 切歌太快会同时放两首歌
         const playNext = async () => {
             currentPosition.value++
             if (currentPosition.value >= reorderedTrackList.length) {
@@ -305,13 +307,7 @@ export default defineComponent({
 <style lang="scss">
     $barHeight: 60px;
 
-    body {
-        margin-bottom: 80px !important; /* Margin bottom by footer height */
-    }
     #bar {
-        position: fixed;
-        bottom: 0;
-        left: 0;
         width: 100%;
         height: $barHeight;
         // text-align: start;

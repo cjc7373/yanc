@@ -125,8 +125,6 @@ $navWidth: 200px;
 #navBottom {
     background-color: white;
     width: $navWidth;
-    position: fixed;
-    bottom: 60px;
 
     height: $height;
     display: flex;

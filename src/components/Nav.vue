@@ -1,9 +1,9 @@
 <template>
     <div id="nav">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link>
-
         <div class="list-group">
+            <router-link to="/">Home</router-link> |
+            <router-link to="/about">About</router-link>
+
             <button class="list-group-item list-group-item-action" v-for="playlist in playlists" :key="playlist.id"
                 @click="handleRoute(playlist)">
                 <i class="bi bi-music-note-list"></i>
@@ -59,15 +59,12 @@ $navWidth: 200px;
     display: flex;
     flex-direction: column;
 
-    position: fixed;
-    left: 0;
-    height: 100vh;
-    margin-bottom: 60px + 50px;
-    overflow-y: scroll;
-
     width: $navWidth;
 
-    border: solid;
+    .list-group {
+        height: 100%;
+        overflow-y: scroll;
+    }
 
     a {
         font-weight: bold;

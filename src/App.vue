@@ -1,10 +1,10 @@
 <template>
-    <Header />
+    <Header id="header" />
     <div id="content">
         <NavBar />
-        <router-view />
+        <router-view id="router-view" />
     </div>
-    <PlayerBar />
+    <PlayerBar id="player-bar" />
 </template>
 
 <script lang="ts">
@@ -38,16 +38,33 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+body {
+    overflow: hidden;
+}
+
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     // text-align: center;
     color: #2c3e50;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 #content {
     display: flex;
-    padding-left: 200px;
+    flex-grow: 1;
+    min-height: 0; // haven't digged into this yet.. see: https://stackoverflow.com/questions/36247140/why-dont-flex-items-shrink-past-content-size
+
+    #router-view {
+        overflow-y: scroll;
+        height: 100%;
+    }
+
+    // #navbar {
+    //     height: 100%;
+    // }
 }
 </style>
