@@ -65,5 +65,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-
+tr {
+    cursor: pointer;
+}
 </style>

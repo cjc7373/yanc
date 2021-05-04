@@ -4,7 +4,7 @@
         <NavBar />
         <router-view id="router-view" />
     </div>
-    <PlayerBar id="player-bar" />
+    <player-bar />
 </template>
 
 <script lang="ts">

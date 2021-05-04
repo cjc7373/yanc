@@ -1,8 +1,15 @@
 <template>
+    <img id="background" alt="background" :src="track.albumPicUrl" :hidden="!shown" v-if="!loading"/>
     <div id="player" :hidden="!shown" v-if="!loading">
-        <p v-for="(line, index) in parsedLrc.lyric" :key="index">
-            {{ line.content }}
-        </p>
+        <div id="left"></div>
+        <div id="right">
+            <p v-for="(line, index) in parsedLrc.lyric" :key="index">
+                {{ line.content }}
+                <span v-if="parsedLrc.tlyric">
+                    <br> {{ parsedLrc.tlyric[index] }}
+                </span>
+            </p>
+        </div>
     </div>
 </template>
 
@@ -24,7 +31,7 @@ export default defineComponent({
             time: number;
             content: string;
         }
-        // copy from https://github.com/sl1673495/vue-netease-music/blob/master/src/utils/lrcparse.js
+        // copied from https://github.com/sl1673495/vue-netease-music/blob/master/src/utils/lrcparse.js
         const parseLyric = (lrc: string) => {
             const lyrics = lrc.split('\n')
             const lrcArray: Array<Lyric> = []
@@ -73,13 +80,38 @@ export default defineComponent({
 <style lang="scss">
 $barHeight: 60px;
 
+#background {
+    width: 100%;
+    position: fixed;
+    bottom: $barHeight;
+}
+
 #player {
     position: fixed;
     bottom: $barHeight;
     left: 0;
     width: 100%;
-    height: 90%;
-    background-color: white;
-    overflow-y: scroll;
+    height: 100%;
+
+    background-color: rgb(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px);
+    // opacity: 0.7;
+
+    display: flex;
+
+    #left {
+        width: 50%;
+    }
+
+    #right {
+        overflow-y: scroll;
+        height: 50%;
+        width: 50%;
+        margin-top: 20%;
+
+        p {
+            color: black;
+        }
+    }
 }
 </style>

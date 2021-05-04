@@ -321,13 +321,15 @@ export default defineComponent({
     }
 
     .cover {
+        cursor: pointer;
+        position: relative;
         img {
             width: $barHeight;
             height: $barHeight;
         }
         i {
             top: 8px;
-            left: 8px;
+            left: 14px;
             opacity: 0;
             position: absolute;
             font-size: 2rem;
