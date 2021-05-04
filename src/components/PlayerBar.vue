@@ -1,5 +1,5 @@
 <template>
-    <Player :track="track" :shown="playerShown" />
+    <Player :track="track" :shown="playerShown" :playControl="playControl" />
 
     <div id="bar">
         <div class="cover" @click="playerShown = !playerShown">

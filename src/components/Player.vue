@@ -2,12 +2,11 @@
     <img id="background" alt="background" :src="track.albumPicUrl" :hidden="!shown" v-if="!loading"/>
     <div id="player" :hidden="!shown" v-if="!loading">
         <div id="left"></div>
-        <div id="right">
-            <p v-for="(line, index) in parsedLrc.lyric" :key="index">
+        <div id="right" ref="right">
+            <p v-for="(line, index) in parsedLrc.lyric" :key="index" :class="{'current-line': currentLine === index}" :id="'line-' + index">
                 {{ line.content }}
-                <span v-if="parsedLrc.tlyric">
-                    <br> {{ parsedLrc.tlyric[index] }}
-                </span>
+                <br v-if="line.translation">
+                {{ line.translation }}
             </p>
         </div>
     </div>
@@ -24,12 +23,16 @@ export default defineComponent({
         track: {
             // type: Track, // This is not related with typescript, only vue's custom validation?
             required: true
+        },
+        playControl: {
+            required: true
         }
     },
     setup (props) {
         interface Lyric {
             time: number;
             content: string;
+            translation?: string;
         }
         // copied from https://github.com/sl1673495/vue-netease-music/blob/master/src/utils/lrcparse.js
         const parseLyric = (lrc: string) => {
@@ -55,9 +58,17 @@ export default defineComponent({
         }
 
         const lyricParse = (lrc: any) => {
+            const lyric = parseLyric(lrc.lrc.lyric || '')
+            const tlyric = parseLyric(lrc.tlyric.lyric || '')
+            lyric.sort((f, s) => f.time < s.time ? 0 : 1)
+            lyric.map(item => {
+                const translation = tlyric.find(i => i.time === item.time)
+                if (translation) {
+                    item.translation = translation.content
+                }
+            })
             return {
-                lyric: parseLyric(lrc.lrc.lyric || ''),
-                tlyric: parseLyric(lrc.tlyric.lyric || ''),
+                lyric: lyric,
                 lyricuser: lrc.lyricUser,
                 transuser: lrc.transUser
             }
@@ -65,14 +76,27 @@ export default defineComponent({
 
         const parsedLrc = ref()
         const loading = ref(true)
+        const currentLine = ref(0)
+        const right = ref()
 
-        watch(() => props.track, async (track: any) => {
+        watch((): any => props.track, async (track: Track) => {
             const lrc = await api.lyric({ id: track.id })
             parsedLrc.value = lyricParse(lrc.body)
             loading.value = false
         })
 
-        return { parsedLrc, loading }
+        watch(() => props.playControl.timeElapsed, time => {
+            while (time > parsedLrc.value.lyric[currentLine.value + 1].time) {
+                currentLine.value++
+            }
+            while (time < parsedLrc.value.lyric[currentLine.value].time) {
+                currentLine.value--
+            }
+            // console.log(right.value.children[currentLine.value])
+            right.value.children[currentLine.value].scrollIntoView({ block: 'center' })
+        })
+
+        return { parsedLrc, loading, currentLine, right }
     }
 })
 </script>
@@ -109,8 +133,15 @@ $barHeight: 60px;
         width: 50%;
         margin-top: 20%;
 
+        scroll-behavior: smooth;
+
         p {
             color: black;
+        }
+
+        .current-line {
+            text-shadow: 1px 1px 2px white;
+            font-size: 1.2rem;
         }
     }
 }
