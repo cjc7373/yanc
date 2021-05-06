@@ -1,4 +1,6 @@
-import { ipcRenderer } from 'electron'
+// import { ipcRenderer } from 'electron'
+
+const ipcRenderer = window.ipcRenderer
 
 async function send (methodName: any, data: any) {
     console.log(`sending ${methodName}, the data is`, data)

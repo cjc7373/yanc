@@ -2,6 +2,7 @@
 
 import { app, protocol, BrowserWindow, nativeTheme } from 'electron'
 import {default as installExtension, VUEJS3_DEVTOOLS} from 'electron-devtools-installer'
+import { join } from 'path'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 app.commandLine.appendSwitch('proxy-server', '127.0.0.1:1080') // FIXME: just for development
@@ -25,19 +26,20 @@ async function createWindow () {
         width: 1200,
         height: 800,
         webPreferences: {
+            preload: join(__dirname, '../../preload/dist/index.cjs'),
 
             // Required for Spectron testing
             enableRemoteModule: true,
 
             // Use pluginOptions.nodeIntegration, leave this alone
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-            // nodeIntegration: true,
+            nodeIntegration: true,
 
             // A workaround, see: https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/1285
-            // contextIsolation: false,
+            contextIsolation: false,
 
             // disable the same-origin policy for the use of netease api
-            // webSecurity: false
+            webSecurity: false
         }
     })
 

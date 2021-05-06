@@ -107,7 +107,7 @@ export default defineComponent({
             if (isLogin.value) {
                 return profile.value.avatarUrl // FIXME: why need .value?
             } else {
-                return '@/assets/logo.png'
+                return '../assets/logo.png'
             }
         })
 

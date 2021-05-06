@@ -104,8 +104,7 @@ const setupPreloadPackageWatcher = (viteDevServer) => {
 
         await viteDevServer.listen();
         
-        // FIXME: do we really need preloads?
-        // await setupPreloadPackageWatcher(viteDevServer);
+        await setupPreloadPackageWatcher(viteDevServer);
         await setupMainPackageWatcher(viteDevServer);
     } catch (e) {
         console.error(e);

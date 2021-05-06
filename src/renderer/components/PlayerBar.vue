@@ -152,7 +152,7 @@ export default defineComponent({
         const currentLoopMode = ref<LoopMode>(loopModeGenerator.next().value)
 
         const track = computed(() => reorderedTrackList.length ? reorderedTrackList[currentPosition.value] : new Track())
-        const albumPic = computed(() => track.value ? track.value.albumPicUrl : '@/assets/logo.png')
+        const albumPic = computed(() => track.value ? track.value.albumPicUrl : '../assets/logo.png')
         const artist = computed(() => track.value.artist.map((item: any) => item.name).join('/'))
 
         const playCurrentPosition = async () => {
