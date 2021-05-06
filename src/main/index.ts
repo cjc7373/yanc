@@ -1,8 +1,7 @@
 'use strict'
 
 import { app, protocol, BrowserWindow, nativeTheme } from 'electron'
-import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import installExtension from 'electron-devtools-installer'
+import {default as installExtension, VUEJS3_DEVTOOLS} from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 app.commandLine.appendSwitch('proxy-server', '127.0.0.1:1080') // FIXME: just for development
@@ -12,9 +11,17 @@ protocol.registerSchemesAsPrivileged([
     { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
+/**
+ * Workaround for TypeScript bug
+ * @see https://github.com/microsoft/TypeScript/issues/41468#issuecomment-727543400
+ */
+const env = import.meta.env;
+
+let mainWindow: BrowserWindow | null = null;
+
 async function createWindow () {
     // Create the browser window.
-    const win = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
         webPreferences: {
@@ -24,11 +31,10 @@ async function createWindow () {
 
             // Use pluginOptions.nodeIntegration, leave this alone
             // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-            nodeIntegration: (process.env
-                .ELECTRON_NODE_INTEGRATION as unknown) as boolean,
+            // nodeIntegration: true,
 
             // A workaround, see: https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/1285
-            contextIsolation: false
+            // contextIsolation: false,
 
             // disable the same-origin policy for the use of netease api
             // webSecurity: false
@@ -37,15 +43,32 @@ async function createWindow () {
 
     nativeTheme.themeSource = 'light' // otherwise it will auto use dark theme in my KDE.
 
-    if (process.env.WEBPACK_DEV_SERVER_URL) {
-    // Load the url of the dev server if in development mode
-        await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string)
-        if (!process.env.IS_TEST) win.webContents.openDevTools()
-    } else {
-        createProtocol('app')
-        // Load the index.html when not in development
-        win.loadURL('app://./index.html')
-    }
+    /**
+     * If you install `show: true` then it can cause issues when trying to close the window.
+     * Use `show: false` and listener events `ready-to-show` to fix these issues.
+     *
+     * @see https://github.com/electron/electron/issues/25012
+     */
+    // mainWindow.on('ready-to-show', () => {
+    //     mainWindow?.show();
+
+    //     if (env.MODE === 'development') {
+    //         mainWindow?.webContents.openDevTools();
+    //     }
+    // });
+
+    await mainWindow.loadURL(env.VITE_DEV_SERVER_URL)
+    mainWindow.webContents.openDevTools()
+
+    /**
+     * URL for main window.
+     * Vite dev server for development.
+     * `file://../renderer/index.html` for production and test
+     */
+    const pageUrl = env.MODE === 'development'
+        ? env.VITE_DEV_SERVER_URL
+        : new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
+
 }
 
 // Quit when all windows are closed.
@@ -72,9 +95,10 @@ app.on('ready', async () => {
         try {
             // See: https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/776#issuecomment-751460206
             // Vue 2 and Vue 3 devtools are not the same extension
-            await installExtension({
-                id: 'ljjemllljcmogpfapbkkighbhhppjdbg',
-                electron: '>=1.2.1'
+            await installExtension(VUEJS3_DEVTOOLS, {
+                loadExtensionOptions: {
+                    allowFileAccess: true,
+                },
             })
         } catch (e) {
             console.error('Vue Devtools failed to install:', e.toString())
