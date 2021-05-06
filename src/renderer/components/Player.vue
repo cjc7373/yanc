@@ -1,9 +1,27 @@
 <template>
-    <img id="background" alt="background" :src="track.albumPicUrl" :hidden="!shown" v-if="!loading"/>
-    <div id="player" :hidden="!shown" v-if="!loading">
-        <div id="left"></div>
-        <div id="right" ref="right" @scroll="handleScroll">
-            <p v-for="(line, index) in parsedLrc.lyric" :key="index" :class="{'current-line': currentLine === index}">
+    <img
+        v-if="!loading"
+        id="background"
+        alt="background"
+        :src="track.albumPicUrl"
+        :hidden="!shown"
+    >
+    <div
+        v-if="!loading"
+        id="player"
+        :hidden="!shown"
+    >
+        <div id="left" />
+        <div
+            id="right"
+            ref="right"
+            @scroll="handleScroll"
+        >
+            <p
+                v-for="(line, index) in parsedLrc.lyric"
+                :key="index"
+                :class="{'current-line': currentLine === index}"
+            >
                 {{ line.content }}
                 <br v-if="line.translation">
                 {{ line.translation }}

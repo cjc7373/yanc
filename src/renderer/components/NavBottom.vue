@@ -1,8 +1,14 @@
 <template>
     <div id="navBottom">
-        <img alt="avatar" :src="avatar" />
+        <img
+            alt="avatar"
+            :src="avatar"
+        >
 
-        <div id="login_div" v-if="!isLogin">
+        <div
+            v-if="!isLogin"
+            id="login_div"
+        >
             <button
                 type="button"
                 class="btn btn-primary"
@@ -13,41 +19,50 @@
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" ref="loginModal" id="loginModal" tabindex="-1">
+            <div
+                id="loginModal"
+                ref="loginModal"
+                class="modal fade"
+                tabindex="-1"
+            >
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">登录</h5>
+                            <h5 class="modal-title">
+                                登录
+                            </h5>
                             <button
                                 type="button"
                                 class="btn-close"
                                 data-bs-dismiss="modal"
-                            ></button>
+                            />
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label"
-                                    >用户名</label
-                                >
+                                <label
+                                    for="exampleInputEmail1"
+                                    class="form-label"
+                                >用户名</label>
                                 <input
-                                    type="text"
-                                    class="form-control"
                                     id="exampleInputEmail1"
                                     v-model="username"
+                                    type="text"
+                                    class="form-control"
                                     required
-                                />
+                                >
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label"
-                                    >密码</label
-                                >
+                                <label
+                                    for="exampleInputPassword1"
+                                    class="form-label"
+                                >密码</label>
                                 <input
-                                    type="password"
-                                    class="form-control"
                                     id="exampleInputPassword1"
                                     v-model="password"
+                                    type="password"
+                                    class="form-control"
                                     required
-                                />
+                                >
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -71,9 +86,11 @@
             </div>
         </div>
 
-        <div v-else>{{ profile.nickname }}</div>
+        <div v-else>
+            {{ profile.nickname }}
+        </div>
 
-        <i class="bi bi-gear"></i>
+        <i class="bi bi-gear" />
     </div>
 </template>
 

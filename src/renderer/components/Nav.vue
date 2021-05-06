@@ -1,17 +1,25 @@
 <template>
     <div id="nav">
         <div class="list-group">
-            <router-link to="/">Home</router-link> |
-            <router-link to="/about">About</router-link>
+            <router-link to="/">
+                Home
+            </router-link> |
+            <router-link to="/about">
+                About
+            </router-link>
 
-            <button class="list-group-item list-group-item-action" v-for="playlist in playlists" :key="playlist.id"
-                @click="handleRoute(playlist)">
-                <i class="bi bi-music-note-list"></i>
+            <button
+                v-for="playlist in playlists"
+                :key="playlist.id"
+                class="list-group-item list-group-item-action"
+                @click="handleRoute(playlist)"
+            >
+                <i class="bi bi-music-note-list" />
                 {{ playlist.name }}
             </button>
         </div>
 
-        <NavBottom></NavBottom>
+        <NavBottom />
     </div>
 </template>
 

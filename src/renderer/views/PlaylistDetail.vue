@@ -1,13 +1,26 @@
 <template>
     <div>
-        <div class="spinner-border" role="status" v-if="loading">
+        <div
+            v-if="loading"
+            class="spinner-border"
+            role="status"
+        >
             <span class="visually-hidden">Loading...</span>
         </div>
 
-        <table class="table table-striped table-hover" v-else>
+        <table
+            v-else
+            class="table table-striped table-hover"
+        >
             <tbody>
-                <tr v-for="(track, index) in playlist.tracks" :key="track.id" @dblclick="changeTrack(track)">
-                    <th scope="row">{{ index }}</th>
+                <tr
+                    v-for="(track, index) in playlist.tracks"
+                    :key="track.id"
+                    @dblclick="changeTrack(track)"
+                >
+                    <th scope="row">
+                        {{ index }}
+                    </th>
                     <td>{{ track.name }}</td>
                     <td>{{ track.ar.map((item) => item.name).join('/') }}</td>
                     <td>{{ track.al.name }}</td>

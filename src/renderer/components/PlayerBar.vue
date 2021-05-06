@@ -1,25 +1,59 @@
 <template>
-    <Player :track="track" :shown="playerShown" :playControl="playControl" />
+    <Player
+        :track="track"
+        :shown="playerShown"
+        :play-control="playControl"
+    />
 
     <div id="bar">
-        <div class="cover" @click="playerShown = !playerShown">
-            <img alt="albumPic" :src="albumPic" />
-            <i class="bi bi-fullscreen-exit" v-if="playerShown"></i>
-            <i class="bi bi-fullscreen" v-else></i>
+        <div
+            class="cover"
+            @click="playerShown = !playerShown"
+        >
+            <img
+                alt="albumPic"
+                :src="albumPic"
+            >
+            <i
+                v-if="playerShown"
+                class="bi bi-fullscreen-exit"
+            />
+            <i
+                v-else
+                class="bi bi-fullscreen"
+            />
         </div>
 
         <!-- FIXME: the height is 1~2 px larger than width -->
-        <button type="button" class="btn btn-primary m-1" @click="playPrevious">
-            <i class="bi bi-skip-start"></i>
+        <button
+            type="button"
+            class="btn btn-primary m-1"
+            @click="playPrevious"
+        >
+            <i class="bi bi-skip-start" />
         </button>
 
-        <button type="button" class="btn btn-primary fs-2 m-1" @click="togglePlayPause">
-            <i class="bi bi-play" v-if="!playControl.playing"></i>
-            <i class="bi bi-pause" v-else></i>
+        <button
+            type="button"
+            class="btn btn-primary fs-2 m-1"
+            @click="togglePlayPause"
+        >
+            <i
+                v-if="!playControl.playing"
+                class="bi bi-play"
+            />
+            <i
+                v-else
+                class="bi bi-pause"
+            />
         </button>
 
-        <button type="button" class="btn btn-primary m-1" @click="playNext">
-            <i class="bi bi-skip-end"></i>
+        <button
+            type="button"
+            class="btn btn-primary m-1"
+            @click="playNext"
+        >
+            <i class="bi bi-skip-end" />
         </button>
 
         <div id="progressBar">
@@ -28,39 +62,68 @@
                 <span id="artist">{{ artist }}</span>
             </span>
             <span id="playTime">{{ formattedTime(playControl.timeElapsed) }} / {{ formattedTime(playControl.timeTotal) }}</span>
-            <input type="range" class="form-range" :value="playControl.timeElapsed / playControl.timeTotal"
-            max="1" min="0" step="0.002" @input="handleSeekMousedown" @mouseup="handleSeekMouseup">
+            <input
+                type="range"
+                class="form-range"
+                :value="playControl.timeElapsed / playControl.timeTotal"
+                max="1"
+                min="0"
+                step="0.002"
+                @input="handleSeekMousedown"
+                @mouseup="handleSeekMouseup"
+            >
         </div>
 
         <button class="btn">
-            <i class="bi bi-folder-plus"></i>
+            <i class="bi bi-folder-plus" />
         </button>
 
-        <button @click="handleLoopModeSwitch" class="btn">
-            <i class="bi bi-shuffle" v-if="currentLoopMode == 'shuffle'"></i>
-            <i class="bi bi-arrow-repeat" v-if="currentLoopMode == 'repeat'"></i>
-            <i class="bi bi-bootstrap-reboot" v-if="currentLoopMode == 'repeat-one'"></i>
+        <button
+            class="btn"
+            @click="handleLoopModeSwitch"
+        >
+            <i
+                v-if="currentLoopMode == 'shuffle'"
+                class="bi bi-shuffle"
+            />
+            <i
+                v-if="currentLoopMode == 'repeat'"
+                class="bi bi-arrow-repeat"
+            />
+            <i
+                v-if="currentLoopMode == 'repeat-one'"
+                class="bi bi-bootstrap-reboot"
+            />
         </button>
 
-        <MDBPopover v-model="volumePopover" dismissible>
+        <MDBPopover
+            v-model="volumePopover"
+            dismissible
+        >
             <template #reference>
-            <a
-                class="btn"
-                tabindex="0"
-                @click="volumePopover = !volumePopover"
+                <a
+                    class="btn"
+                    tabindex="0"
+                    @click="volumePopover = !volumePopover"
                 >
-                <i class="bi bi-volume-up"></i>
-            </a>
+                    <i class="bi bi-volume-up" />
+                </a>
             </template>
             <template #body>
-                <input type="range" class="form-range" max="1" min="0" step="0.01" v-model="volume">
+                <input
+                    v-model="volume"
+                    type="range"
+                    class="form-range"
+                    max="1"
+                    min="0"
+                    step="0.01"
+                >
             </template>
         </MDBPopover>
 
         <button class="btn">
-            <i class="bi bi-list-ul"></i>
+            <i class="bi bi-list-ul" />
         </button>
-
     </div>
 </template>
 
