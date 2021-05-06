@@ -13,14 +13,7 @@
     "sourceMap": true,
     "noImplicitAny": false,
     "baseUrl": ".",
-    "types": [
-      "webpack-env",
-      
-      "@wdio/mocha-framework",
-      "@wdio/sync",
-      "mocha",
-      "chai"
-    ],
+    "types": [],
     "paths": {
       "@/*": [
         "src/*"
