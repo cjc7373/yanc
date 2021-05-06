@@ -40,7 +40,6 @@
             <i class="bi bi-shuffle" v-if="currentLoopMode == 'shuffle'"></i>
             <i class="bi bi-arrow-repeat" v-if="currentLoopMode == 'repeat'"></i>
             <i class="bi bi-bootstrap-reboot" v-if="currentLoopMode == 'repeat-one'"></i>
-            <!-- missing repeat and repeat one -->
         </button>
 
         <MDBPopover v-model="volumePopover" dismissible>
@@ -280,6 +279,13 @@ export default defineComponent({
         }
 
         const playerShown = ref(false)
+
+        navigator.mediaSession.setActionHandler('play', play)
+        navigator.mediaSession.setActionHandler('pause', pause)
+        navigator.mediaSession.setActionHandler('stop', stop)
+        navigator.mediaSession.setActionHandler('previoustrack', playPrevious)
+        navigator.mediaSession.setActionHandler('nexttrack', playNext)
+        // navigator.mediaSession.setActionHandler('pause', pause)
 
         return {
             track,
