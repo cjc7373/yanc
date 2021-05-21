@@ -1,4 +1,5 @@
 # yanc - Yet Another Netease Cloudmusic
+Using Vue 3 + Vite + Electron.
 ## Project setup
 ```
 yarn install

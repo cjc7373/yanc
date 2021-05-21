@@ -115,6 +115,13 @@ export default defineComponent({
             loginModalBS.value.hide()
 
             await api.login({ email: username.value, password: password.value })
+
+            const account = await api.user_account()
+            if (account.status === 200) {
+                store.commit('login') // TODO: move this to login method
+                store.commit('updateProfile', account.body.profile)
+                console.log('profile: ', account.body.profile)
+            }
         }
 
         const store = useStore()

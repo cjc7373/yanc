@@ -30,51 +30,45 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch, computed, onMounted } from 'vue'
+<!-- This new syntax is experimental. See RFC: https://github.com/vuejs/rfcs/pull/227 -->
+<script setup lang="ts">
+import { ref, watch, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import api from '@/ipcRenderer'
 import { useStore } from 'vuex'
 import { Track } from '@/store/index'
 
-export default defineComponent({
-    setup () {
-        const loading = ref(true)
-        const route = useRoute()
-        const store = useStore()
 
-        const playlist = computed(() => store.state.currentPlaylist)
+const loading = ref(true)
+const route = useRoute()
+const store = useStore()
 
-        const getPlaylist = async (id: string) => {
-            const res = await api.playlist_detail({ id: id })
-            store.commit('updateCurrentPlaylist', res.body.playlist)
-            loading.value = false
-        }
+const playlist = computed(() => store.state.currentPlaylist)
 
-        onMounted(() => getPlaylist(route.params.id as string))
+const getPlaylist = async (id: string) => {
+    const res = await api.playlist_detail({ id: id })
+    store.commit('updateCurrentPlaylist', res.body.playlist)
+    loading.value = false
+}
 
-        watch(() => route.params, async toParams => {
-            await getPlaylist(toParams.id as string)
-        })
+onMounted(() => getPlaylist(route.params.id as string))
 
-        const changeTrack = async (track: Track) => {
-            store.commit('updateTrackList', playlist.value.tracks.map((item: any) => {
-                return {
-                    name: item.name,
-                    id: item.id,
-                    albumName: item.al.name,
-                    albumPicUrl: item.al.picUrl,
-                    artist: item.ar
-                }
-            }))
-            store.commit('updateTriggerTrack', track)
-        }
-
-        return {
-            loading, playlist, changeTrack
-        }
-    }
+watch(() => route.params, async toParams => {
+    await getPlaylist(toParams.id as string)
 })
+
+const changeTrack = async (track: Track) => {
+    store.commit('updateTrackList', playlist.value.tracks.map((item: any) => {
+        return {
+            name: item.name,
+            id: item.id,
+            albumName: item.al.name,
+            albumPicUrl: item.al.picUrl,
+            artist: item.ar
+        }
+    }))
+    store.commit('updateTriggerTrack', track)
+}
 </script>
 
 <style lang="scss">

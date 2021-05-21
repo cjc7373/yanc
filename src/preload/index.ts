@@ -1,5 +1,8 @@
 import { ipcRenderer, contextBridge } from 'electron'
 
+
+// See: https://nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration
+
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
 // contextBridge.exposeInMainWorld('ipcRenderer', {
