@@ -13,7 +13,6 @@
     "sourceMap": true,
     "noImplicitAny": false,
     "baseUrl": ".",
-    "types": [],
     "paths": {
       "@/*": [
         "src/*"

@@ -54,6 +54,7 @@ const getPlaylist = async (id: string) => {
 onMounted(() => getPlaylist(route.params.id as string))
 
 watch(() => route.params, async toParams => {
+    loading.value = true
     await getPlaylist(toParams.id as string)
 })
 

@@ -7,35 +7,16 @@ yarn install
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+yarn dev
 ```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Run your unit tests
-```
-yarn test:unit
-```
-
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
 
 ## TODO
 - [ ] save current track and trackList when exiting
+- 通知弹窗 (需要自己实现) 调用方式类似 [antdesign](https://2x.antdv.com/components/message-cn)
+- 播放列表
+- 是否在 vuex 上做个中间层把所有数据缓存呢
+- 进度条已播放部分的颜色
+- 如何在组件里使用 BS 的 Scss 变量?
 
 ## Issues
 - [ ] vue dev tool 下载失败 据上游 [issue](https://github.com/MarshallOfSound/electron-devtools-installer/issues/77) 这应该是 electron.net 的问题

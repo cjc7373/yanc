@@ -215,7 +215,7 @@ export default defineComponent({
         const currentLoopMode = ref<LoopMode>(loopModeGenerator.next().value)
 
         const track = computed(() => reorderedTrackList.length ? reorderedTrackList[currentPosition.value] : new Track())
-        const albumPic = computed(() => track.value ? track.value.albumPicUrl : '../assets/logo.png')
+        const albumPic = computed(() => track.value.albumPicUrl ? track.value.albumPicUrl : '../assets/logo.png')
         const artist = computed(() => track.value.artist.map((item: any) => item.name).join('/'))
 
         const playCurrentPosition = async () => {
@@ -342,13 +342,16 @@ export default defineComponent({
         }
 
         const playerShown = ref(false)
-
-        navigator.mediaSession.setActionHandler('play', play)
-        navigator.mediaSession.setActionHandler('pause', pause)
-        navigator.mediaSession.setActionHandler('stop', stop)
-        navigator.mediaSession.setActionHandler('previoustrack', playPrevious)
-        navigator.mediaSession.setActionHandler('nexttrack', playNext)
-        // navigator.mediaSession.setActionHandler('pause', pause)
+        
+        // FIXME: we can be sure that navigator.mediaSession exists, but ts complaints about this..
+        if (navigator.mediaSession) {
+            navigator.mediaSession.setActionHandler('play', play)
+            navigator.mediaSession.setActionHandler('pause', pause)
+            navigator.mediaSession.setActionHandler('stop', stop)
+            navigator.mediaSession.setActionHandler('previoustrack', playPrevious)
+            navigator.mediaSession.setActionHandler('nexttrack', playNext)
+            // navigator.mediaSession.setActionHandler('pause', pause)
+        }
 
         return {
             track,
@@ -424,5 +427,9 @@ export default defineComponent({
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
+
+        // input[type=range]::-webkit-slider-runnable-track {
+        //     background-color: blue;
+        // }
     }
 </style>

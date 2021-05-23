@@ -5,7 +5,7 @@ import {default as installExtension, VUEJS3_DEVTOOLS} from 'electron-devtools-in
 import { join } from 'path'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
-app.commandLine.appendSwitch('proxy-server', '127.0.0.1:1080') // FIXME: just for development
+// app.commandLine.appendSwitch('proxy-server', '127.0.0.1:1080') // FIXME: just for development
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([

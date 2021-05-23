@@ -61,6 +61,7 @@ body {
     #router-view {
         overflow-y: scroll;
         height: 100%;
+        flex-grow: 1;
     }
 
     // #navbar {
