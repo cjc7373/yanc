@@ -22,6 +22,7 @@ yarn dev
 ## Issues
 - electron-devtools-installer 安装 vue-dev-tools 失败, 根据[此 issue](https://github.com/MarshallOfSound/electron-devtools-installer/issues/187), 是 rollup 和 semver 不兼容导致的
   目前手动注释了 electron-devtools-installer 中判断兼容性的部分
+- bootstrap 目前会导致一堆 warning 见: https://github.com/twbs/bootstrap/issues/34051
 - MediaSession API lacks the control of volume
 
 ## Special Thanks

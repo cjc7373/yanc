@@ -13,3 +13,9 @@ export function formattedTime(sec: number): string {
     const ss = s > 9 ? `${s}` : `0${s}`
     return `${mm}:${ss}`
 }
+
+import { defineComponent } from 'vue'
+
+export function message(content: string): void {
+    console.log(1)
+}

@@ -1,9 +1,11 @@
 <template>
-    <Player
-        :track="track"
-        :shown="playerShown"
-        :play-control="playControl"
-    />
+    <transition name="scale">
+        <Player
+            v-show="playerShown"
+            :track="track"
+            :play-control="playControl"
+        />
+    </transition>
 
     <div id="bar">
         <div
@@ -423,5 +425,15 @@ export default defineComponent({
         // input[type=range]::-webkit-slider-runnable-track {
         //     background-color: blue;
         // }
+    }
+
+    .scale-enter-active,
+    .scale-leave-active {
+        transition: opacity 0.5s ease;
+    }
+
+    .scale-enter-from,
+    .scale-leave-to {
+        opacity: 0;
     }
 </style>

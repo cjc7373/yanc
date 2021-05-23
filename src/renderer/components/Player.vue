@@ -1,31 +1,31 @@
 <template>
-    <img
-        v-if="!loading"
-        id="background"
-        alt="background"
-        :src="track.albumPicUrl"
-        :hidden="!shown"
-    >
-    <div
-        v-if="!loading"
-        id="player"
-        :hidden="!shown"
-    >
-        <div id="left" />
-        <div
-            id="right"
-            ref="right"
-            @scroll="handleScroll"
+    <div>
+        <img
+            v-if="!loading"
+            id="background"
+            alt="background"
+            :src="track.albumPicUrl"
         >
-            <p
-                v-for="(line, index) in parsedLrc.lyric"
-                :key="index"
-                :class="{'current-line': currentLine === index}"
+        <div
+            v-if="!loading"
+            id="player"
+        >
+            <div id="left" />
+            <div
+                id="right"
+                ref="right"
+                @scroll="handleScroll"
             >
-                {{ line.content }}
-                <br v-if="line.translation">
-                {{ line.translation }}
-            </p>
+                <p
+                    v-for="(line, index) in parsedLrc.lyric"
+                    :key="index"
+                    :class="{'current-line': currentLine === index}"
+                >
+                    {{ line.content }}
+                    <br v-if="line.translation">
+                    {{ line.translation }}
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -37,7 +37,6 @@ import api from '@/ipcRenderer'
 
 export default defineComponent({
     props: {
-        shown: Boolean,
         track: {
             // type: Track, // This is not related with typescript, only vue's custom validation?
             required: true
