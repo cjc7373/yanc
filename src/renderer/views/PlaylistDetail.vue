@@ -24,6 +24,7 @@
                     <td>{{ track.name }}</td>
                     <td>{{ track.ar.map((item) => item.name).join('/') }}</td>
                     <td>{{ track.al.name }}</td>
+                    <td>{{ formattedTime(track.dt / 1000) }}</td>
                 </tr>
             </tbody>
         </table>
@@ -37,6 +38,8 @@ import { useRoute } from 'vue-router'
 import api from '@/ipcRenderer'
 import { useStore } from 'vuex'
 import { Track } from '@/store/index'
+import { formattedTime } from '@/utils'
+
 
 
 const loading = ref(true)

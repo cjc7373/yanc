@@ -97,11 +97,7 @@ app.on('ready', async () => {
         try {
             // See: https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/776#issuecomment-751460206
             // Vue 2 and Vue 3 devtools are not the same extension
-            await installExtension(VUEJS3_DEVTOOLS, {
-                loadExtensionOptions: {
-                    allowFileAccess: true,
-                },
-            })
+            await installExtension(VUEJS3_DEVTOOLS)
         } catch (e) {
             console.error('Vue Devtools failed to install:', e.toString())
         }

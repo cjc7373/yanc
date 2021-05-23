@@ -17,10 +17,12 @@ yarn dev
 - 是否在 vuex 上做个中间层把所有数据缓存呢
 - 进度条已播放部分的颜色
 - 如何在组件里使用 BS 的 Scss 变量?
+- 把三个 vite.config.js 合并, 把 dist 文件夹移到项目根目录
 
 ## Issues
-- [ ] vue dev tool 下载失败 据上游 [issue](https://github.com/MarshallOfSound/electron-devtools-installer/issues/77) 这应该是 electron.net 的问题
-- [ ] MediaSession API lacks the control of volume
+- electron-devtools-installer 安装 vue-dev-tools 失败, 根据[此 issue](https://github.com/MarshallOfSound/electron-devtools-installer/issues/187), 是 rollup 和 semver 不兼容导致的
+  目前手动注释了 electron-devtools-installer 中判断兼容性的部分
+- MediaSession API lacks the control of volume
 
 ## Special Thanks
 Special thanks to [electron-netease-cloud-music](https://github.com/Rocket1184/electron-netease-cloud-music), I've referred to this project a lot during development. 

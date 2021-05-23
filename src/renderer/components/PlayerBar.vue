@@ -133,7 +133,7 @@ import { useStore } from 'vuex'
 import { Howl } from 'howler'
 import api from '@/ipcRenderer'
 import { Track } from '@/store/index'
-import { cycle } from '@/utils'
+import { cycle, formattedTime } from '@/utils'
 // import Popover from '@/components/bootstrap/Popover.vue'
 import { MDBPopover } from 'mdb-vue-ui-kit'
 import Player from '@/components/Player.vue'
@@ -145,14 +145,6 @@ export default defineComponent({
     },
     setup () {
         const store = useStore()
-
-        const formattedTime = (t: number) => {
-            const m = Math.floor(t / 60)
-            const mm = m > 9 ? `${m}` : `0${m}`
-            const s = Math.floor(t % 60)
-            const ss = s > 9 ? `${s}` : `0${s}`
-            return `${mm}:${ss}`
-        }
 
         interface PlayControl {
             sound: any;
