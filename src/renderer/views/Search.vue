@@ -1,10 +1,10 @@
 <template>
-    <div class="home">
-        <img
-            alt="Vue logo"
-            src="../assets/logo.png"
+    <div class="m-2">
+        <input
+            id="searchBox"
+            class="form-control"
+            placeholder="搜索音乐"
         >
-        <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
     </div>
 </template>
 

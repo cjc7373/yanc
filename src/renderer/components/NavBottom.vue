@@ -89,8 +89,10 @@
         <div v-else>
             {{ profile.nickname }}
         </div>
-
-        <i class="bi bi-gear" />
+        
+        <router-link to="/settings">
+            <i class="bi bi-gear" />
+        </router-link>
     </div>
 </template>
 

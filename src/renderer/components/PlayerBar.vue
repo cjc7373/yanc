@@ -344,7 +344,6 @@ export default defineComponent({
             navigator.mediaSession.setActionHandler('stop', stop)
             navigator.mediaSession.setActionHandler('previoustrack', playPrevious)
             navigator.mediaSession.setActionHandler('nexttrack', playNext)
-            // navigator.mediaSession.setActionHandler('pause', pause)
         }
 
         return {

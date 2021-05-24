@@ -2,10 +2,20 @@
     <div id="nav">
         <div class="list-group">
             <router-link to="/">
-                Home
-            </router-link> |
+                <button
+                    class="list-group-item list-group-item-action"
+                >
+                    <i class="bi bi-search" />
+                    <span>搜索</span>
+                </button>
+            </router-link> 
             <router-link to="/about">
-                About
+                <button
+                    class="list-group-item list-group-item-action"
+                >
+                    <i class="bi bi-search" />
+                    <span>私人 FM</span>
+                </button>
             </router-link>
 
             <button
@@ -15,7 +25,7 @@
                 @click="handleRoute(playlist)"
             >
                 <i class="bi bi-music-note-list" />
-                {{ playlist.name }}
+                <span class="playlist-name">{{ playlist.name }}</span>
             </button>
         </div>
 
@@ -61,17 +71,24 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-$navWidth: 200px;
+$navWidth: 250px;
 
 #nav {
     display: flex;
     flex-direction: column;
 
-    width: $navWidth;
+    min-width: $navWidth;
 
     .list-group {
         height: 100%;
         overflow-y: scroll;
+        overflow-x: hidden;
+        
+    }
+
+    .playlist-name {
+        text-overflow: ellipsis;
+        // white-space: nowrap;
     }
 
     a {
