@@ -28,3 +28,7 @@ const api: any = new Proxy({}, {
 })
 
 export default api
+
+export function reloadApp(): void {
+    ipcRenderer.invoke('reload app')
+}

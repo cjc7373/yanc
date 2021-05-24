@@ -194,7 +194,7 @@ export default defineComponent({
         }
 
         const getTrackUrl = async (id: number) => {
-            const res = await api.song_url({ id: id, br: 320000 }) // FIXME: currently using fixed br to reduce bandwidth
+            const res = await api.song_url({ id: id, br: 128000 }) // FIXME: currently using fixed br to reduce bandwidth
             const song = JSON.parse(new TextDecoder().decode(res.body)).data[0]
             console.log('the current song is ', song)
             return song.url

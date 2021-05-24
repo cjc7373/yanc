@@ -10,11 +10,10 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue'
-import HelloWorld from '@/components/HelloWorld.vue' // @ is an alias to /src
 
 export default defineComponent({
     components: {
-        HelloWorld
+        
     },
     setup() {
         return
