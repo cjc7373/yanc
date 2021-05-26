@@ -78,6 +78,8 @@ $navWidth: 250px;
     flex-direction: column;
 
     min-width: $navWidth;
+    width: $navWidth;
+    // flex-grow: 2;
 
     .list-group {
         height: 100%;

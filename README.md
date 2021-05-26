@@ -19,6 +19,9 @@ yarn dev
 - 如何在组件里使用 BS 的 Scss 变量?
 - 把三个 vite.config.js 合并, 把 dist 文件夹移到项目根目录
 - cache, downloader, musicServer
+- 歌单中歌曲的增删
+- 歌单的增删
+- 私人 FM
 
 ## Issues
 - electron-devtools-installer 安装 vue-dev-tools 失败, 根据[此 issue](https://github.com/MarshallOfSound/electron-devtools-installer/issues/187), 是 rollup 和 semver 不兼容导致的

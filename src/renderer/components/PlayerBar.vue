@@ -153,14 +153,14 @@ export default defineComponent({
             playing: boolean;
             timeElapsed: number;
             timeTotal: number;
-            timer?: any;
+            timer?: number;
         }
 
         const playControl: PlayControl = reactive({
+            sound: undefined,
             playing: false,
             timeElapsed: 0,
             timeTotal: 0.0001,
-            sound: undefined,
             timer: undefined
         })
 
@@ -176,7 +176,7 @@ export default defineComponent({
             playControl.timer = setInterval(() => {
                 playControl.timeElapsed = Number(playControl.sound.seek())
                 // console.log(playControl.sound.seek())
-            }, 1000)
+            }, 1000) as unknown as number  // See: https://stackoverflow.com/questions/45802988/typescript-use-correct-version-of-settimeout-node-vs-window
             playControl.playing = true
         }
 
@@ -195,7 +195,8 @@ export default defineComponent({
 
         const getTrackUrl = async (id: number) => {
             const res = await api.song_url({ id: id, br: 128000 }) // FIXME: currently using fixed br to reduce bandwidth
-            const song = JSON.parse(new TextDecoder().decode(res.body)).data[0]
+            // const song = JSON.parse(new TextDecoder().decode(res.body)).data[0]
+            const song = res.body.data[0]
             console.log('the current song is ', song)
             return song.url
         }

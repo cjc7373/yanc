@@ -1,4 +1,4 @@
-export function * cycle<T> (arr: T[]) {
+export function * cycle<T> (arr: T[]): Generator<T, any, unknown> { // FIXME: the type hint is inaccurate
     while (true) {
         for (const i of arr) {
             yield i

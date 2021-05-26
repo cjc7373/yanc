@@ -1,5 +1,11 @@
 <template>
     <div id="header">
+        <button
+            type="button"
+            class="btn"
+        >
+            <i class="bi bi-arrow-left" />
+        </button>
         <h1>
             Yet Another Netease Cloudmusic
         </h1>
@@ -21,5 +27,7 @@ export default defineComponent({
     background-color: #35b9f7;
     width: 100%;
     height: 60px;
+
+    display: flex;
 }
 </style>
