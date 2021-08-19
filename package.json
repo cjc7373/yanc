@@ -16,10 +16,11 @@
     "bootstrap-icons": "^1.4.1",
     "debug": "^4.3.1",
     "howler": "^2.2.1",
-    "mdb-vue-ui-kit": "^1.0.0-beta4",
+    "mdb-vue-ui-kit": "^1.0.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vuex": "^4.0.0-0",
+    "vuex-persistedstate": "^4.0.0"
   },
   "@comment resolutions": "iconv-lite is a dependency for NeteaseCloudMusicApi, and is incompatible with electron when using 0.4.x",
   "resolutions": {
@@ -37,7 +38,7 @@
     "@typescript-eslint/parser": "^4.0.0",
     "@vitejs/plugin-vue": "^1.2.2",
     "@vue/compiler-sfc": "^3.0.6",
-    "electron": "^12.0.6",
+    "electron": "^13.0.6",
     "electron-builder": "^22.11.1",
     "electron-devtools-installer": "^3.2.0",
     "eslint": "^7.0.0",
