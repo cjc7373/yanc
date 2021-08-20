@@ -3305,7 +3305,7 @@ md5@^2.3.0:
     crypt "0.0.2"
     is-buffer "~1.1.6"
 
-mdb-vue-ui-kit@^1.0.0-beta4:
+mdb-vue-ui-kit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mdb-vue-ui-kit/-/mdb-vue-ui-kit-1.0.0.tgz#3e0fe06db23e905bd653a0d7264e140f1804eef0"
   integrity sha512-Zjswu1Qt05g7LPWBksHszSt6AAyVoKigcl9axqOPRN+qhY48KDmtZQZl/Oy8e0bZjIijTAy51LrxbZYKMmLWiQ==
@@ -5430,7 +5430,7 @@ vue-tsc@^0.1.0:
   dependencies:
     vscode-vue-languageservice "^0.25.17"
 
-vue@^3.2.4:
+vue@^3.0.0:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.4.tgz#d94d88675e41c050d3a722d0848a7063b5e87a60"
   integrity sha512-rNCFmoewm8IwmTK0nj3ysKq53iRpNEFKoBJ4inar6tIh7Oj7juubS39RI8UI+VE7x+Cs2z6PBsadtZu7z2qppg==
@@ -5439,7 +5439,7 @@ vue@^3.2.4:
     "@vue/runtime-dom" "3.2.4"
     "@vue/shared" "3.2.4"
 
-vuex-persistedstate@^4.0.0-beta.3:
+vuex-persistedstate@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/vuex-persistedstate/-/vuex-persistedstate-4.0.0.tgz#ed82f266ca98c869a2aad9cb9880c2f608c05f3a"
   integrity sha512-jDs+awbV9YD2A2F6S5zgtYq1Bjd8v0YldOK6HPv1EJZzGMse0FtZTREfXvA7zlVfq9MpmSZJNmYQVylfpZ5znQ==

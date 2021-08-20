@@ -44,6 +44,7 @@ export default defineConfig({
             external: [
                 'electron',
                 'NeteaseCloudMusicApi',
+                'electron-devtools-installer',
                 // 'electron-updater',
                 ...builtinModules,
             ],
