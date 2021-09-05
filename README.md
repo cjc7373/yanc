@@ -33,6 +33,9 @@ yarn dev
 缓存:
 音乐包含元数据和资源, 资源包括歌曲封面, 歌曲, MV 等.
 
+## Other notes
+- Electron build can be flaky in China, use `ELECTRON_MIRROR="https://cdn.npm.taobao.org/dist/electron/"` to use a mirror.
+
 ## Special Thanks
 Special thanks to [electron-netease-cloud-music](https://github.com/Rocket1184/electron-netease-cloud-music), I've referred to this project a lot during development. 
 

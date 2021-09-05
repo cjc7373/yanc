@@ -38,7 +38,7 @@
     "@typescript-eslint/parser": "^4.0.0",
     "@vitejs/plugin-vue": "^1.2.2",
     "@vue/compiler-sfc": "^3.0.6",
-    "electron": "^13.0.6",
+    "electron": "^14.0.0",
     "electron-builder": "^22.11.1",
     "electron-devtools-installer": "^3.2.0",
     "eslint": "^7.0.0",
